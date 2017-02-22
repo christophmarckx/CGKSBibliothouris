@@ -4,13 +4,13 @@ import be.cegeka.bibliothouris.domain.users.User;
 import be.cegeka.bibliothouris.domain.users.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.inject.Inject;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
+
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @Controller
 @RequestMapping("/user")
@@ -19,17 +19,15 @@ public class UserController {
     @Inject
     private UserService userService;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public
     @ResponseBody
-    List<User> getUsers() {
+    @RequestMapping(method = GET)
+    public Iterable<User> getUsers() {
         return userService.getAllUsers();
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public
+    @RequestMapping(method = POST)
     @ResponseBody
-    void addUser(@RequestParam(value = "name", required = true) String name) {
+    public void addUser(@RequestParam(value = "name") String name) {
         userService.addUser(name);
     }
 

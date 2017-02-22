@@ -2,22 +2,25 @@ package be.cegeka.bibliothouris.domain.users;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Named
 public class UserService {
 
+//    @Inject
+//    private UserRepository userRepository;
+
     @Inject
-    private UserRepository userRepository;
+    private UserRepositoryWithRealDatabase userRepositoryWithRealDatabase;
 
     private final AtomicLong counter = new AtomicLong();
 
     public void addUser(String name){
-        userRepository.addUser(new User(counter.incrementAndGet() , name));
+        User user = new User(counter.incrementAndGet(), name);
+        userRepositoryWithRealDatabase.save(user);
     }
 
-    public List<User> getAllUsers() {
-        return userRepository.getAllUsers();
+    public Iterable<User> getAllUsers() {
+        return userRepositoryWithRealDatabase.findAll();
     }
 }
